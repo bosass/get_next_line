@@ -10,4 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-very utils very helper;
+#include "get_next_line.h"
+
+char *reading(int fd, char *stringread)
+{
+    ssize_t amountread;
+
+    amountread = read(fd, stringread, (BUFFER_SIZE));
+    if(amountread < 0)
+        return (NULL);
+    return(stringread);
+}
+char *alocating(char *stringout)
+{
+    stringout = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+    if(!stringout)
+        return (NULL);
+    return (stringout);
+}
+char *stringwriting(char *stringread, char *stringout, int i)
+{
+    int k;
+
+    k = 0;
+    while(stringread[i] != '\n' && stringread[i] != '\0')
+    {
+        stringout[k] = stringread[i];
+        i++;
+        k++;
+    }
+    if(stringread[i] == '\n')
+        stringout[k] = '\n';
+    else if(stringread[i] == '\0')
+        stringout[k] = '\0';
+    return(stringout);
+}
