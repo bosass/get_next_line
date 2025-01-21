@@ -10,57 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#define BUFFER_SIZE 333
+#include "get_next_line.h"
 
 char *get_next_line(int fd)
 {
-    // static int line;
-    // int i;
-    // int k;
-    // int counted;
-    // static char stringout[BUFFER_SIZE + 1];
-    char stringread[BUFFER_SIZE + 1];
-    ssize_t amountread;
+    static int line;
+    int i;
+    int counted;
+    char *stringout;
+    char *stringread;
 
-    // i = 0;
-    // k = 0;
-    // line = 0;
-    amountread = read(fd, stringread, BUFFER_SIZE);
-    return (stringread);
-    // while(stringread[i] != '\0')
-    // {
-    //     if(line == counted)
-    //     {
-    //         while(stringread[i] != '\n' && stringread[i] != '\0')
-    //         {
-    //             stringout[k] = stringread[i];
-    //             i++;
-    //             k++;
-    //         }
-    //         stringout[k] = '\n';
-    //         line++;
-    //         return(stringout);
-    //     }
-    //     if(stringread[i] == '\n' || stringread[i] == '\0')
-    //     {
-    //         counted++;
-    //         i++;
-    //     }
-    //     else
-    //         i++;
-    // }
-    // return (NULL);
-}
-int main()
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *out;
-    out = get_next_line(fd);
-    printf("%s", out);
-    // out = get_next_line(fd);
-    // printf("%s", out);
-    close(fd);
+    counted = 0;
+    i = 0;
+    stringread = reading(fd, stringread);
+    stringout = alocating(stringout);
+    if(fd < 0 || BUFFER_SIZE < 0)
+        return (NULL);
+    while(stringread[i] != '\0')
+    {
+        if(counted == line)
+        {
+            stringout = stringwriting(stringread, stringout, i);
+            line++;
+            return(stringout);
+        }
+        if(stringread[i] == '\n' || stringread[i] == '\0')
+            counted++;
+        i++;
+    }
+    return (NULL);
 }
